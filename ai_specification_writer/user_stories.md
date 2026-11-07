@@ -67,4 +67,15 @@ As an employee, I want to view my individual carbon footprint reduction metrics 
 ### User Story 9
 As a corporate administrator, I want to access an analytics dashboard so that I can monitor company-wide parking and sustainability impact.
 **Acceptance Criteria**:
-- Admin can view total rides
+- Admin can view total rides completed, unique participants, and reduced parking strain.
+- Admin can export monthly sustainability reports for corporate ESG compliance.
+- Data is aggregated and anonymized to protect individual employee privacy.
+**Priority**: Medium
+
+### User Story 10
+As a driver, I want to set preferred pickup waypoints along my route so that I don't have to make major detours.
+**Acceptance Criteria**:
+- Driver adds up to 3 custom pickup nodes on their base commute map.
+- Matching algorithm prioritizes passengers located within 5 minutes of defined waypoints.
+- System calculates and displays detour duration added per passenger pick-up.
+**Priority**: Low
