@@ -7,7 +7,4 @@ def countdown(start):
     while current > 0:
         print(current)
         # Bug: Incrementing instead of decrementing causes an infinite loop
-        current += 1 
-
-# Example usage:
-# countdown(5)
+        current += 1
