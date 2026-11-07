@@ -5,7 +5,7 @@ function getFirstNItems(items, n) {
      */
     let result = [];
     
-    // Bug: Uses '<=' instead of '<', causing an off-by-one or out-of-bounds issue
+    // Bug: Uses '<=' instead of '<', causing an out-of-bounds issue
     for (let i = 0; i <= n; i++) {
         if (i < items.length) {
             result.push(items[i]);
@@ -13,6 +13,3 @@ function getFirstNItems(items, n) {
     }
     return result;
 }
-
-// Example usage:
-// console.log(getFirstNItems([1, 2, 3], 2));
