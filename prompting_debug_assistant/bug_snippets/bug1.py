@@ -6,7 +6,7 @@ def calculate_average(numbers):
     total = 0
     count = 0
     
-    # Missing colon and indentation issue representation
+    # Missing colon and assignment instead of comparison
     for num in numbers
         total += num
         count += 1
@@ -16,6 +16,3 @@ def calculate_average(numbers):
         
     average = total / count
     return average
-
-# Example usage:
-# print(calculate_average([10, 20, 30]))
