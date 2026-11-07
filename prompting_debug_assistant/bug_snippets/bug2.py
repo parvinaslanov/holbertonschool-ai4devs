@@ -1,4 +1,4 @@
-# Bug 2: Return the items that meet a minimum score
+# Bug 2: Return scores that meet the minimum passing score.
 def passing_scores(scores, minimum=50):
     passed = []
     for score in scores:
@@ -7,4 +7,6 @@ def passing_scores(scores, minimum=50):
     return passed
 
 results = [35, 50, 67, 82, 49, 91]
-print("Passing scores:", passing_scores(results))
+passing = passing_scores(results)
+print("Passing scores:", passing)
+print("Number passing:", len(passing))

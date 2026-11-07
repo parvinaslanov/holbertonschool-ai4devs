@@ -1,4 +1,4 @@
-// Bug 3: Find a user's display name safely
+// Bug 3: Convert each user's name to uppercase safely.
 function getDisplayName(user) {
     return user.profile.name.toUpperCase();
 }
@@ -10,5 +10,6 @@ const users = [
 ];
 
 users.forEach((user) => {
-    console.log(getDisplayName(user));
+    const displayName = getDisplayName(user);
+    console.log(displayName);
 });
