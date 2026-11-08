@@ -3,8 +3,6 @@ from collections import Counter
 from typing import Dict, Any, List
 
 class LogAnalyzer:
-    # Regex for Apache Combined Log Format
-    # Example: 192.168.1.50 - - [10/Nov/2026:14:32:10 +0000] "GET /api/v1/users HTTP/1.1" 200 512 "ref" "agent"
     LOG_PATTERN = re.compile(
         r'^(?P<ip>\S+)\s+\S+\s+\S+\s+\[(?P<timestamp>[^\]]+)\]\s+'
         r'"(?P<method>[A-Z]+)\s+(?P<path>[^\s"]+)(?:\s+[^"]*)?"\s+'
@@ -12,7 +10,6 @@ class LogAnalyzer:
     )
 
     def parse_line(self, line: str) -> Dict[str, Any]:
-        """Parses a single Apache log line. Returns None if malformed."""
         match = self.LOG_PATTERN.match(line.strip())
         if not match:
             return None
@@ -21,7 +18,6 @@ class LogAnalyzer:
         return data
 
     def analyze(self, lines: List[str]) -> Dict[str, Any]:
-        """Analyzes a list of log lines and returns aggregate metrics."""
         total_requests = 0
         malformed_lines_count = 0
         ips = set()
@@ -50,7 +46,6 @@ class LogAnalyzer:
 
         error_rate = (error_count / total_requests * 100) if total_requests > 0 else 0.0
         
-        # Top 3 paths
         top_paths = [
             {"path": path, "count": count}
             for path, count in path_counts.most_common(3)
