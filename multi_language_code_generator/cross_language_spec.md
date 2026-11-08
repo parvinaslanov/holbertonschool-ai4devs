@@ -1,18 +1,23 @@
 # Cross-Language Specification - API Request Log Analyzer
 
-## 1. Algorithm Description
-The **API Request Log Analyzer** parses standard Apache/Nginx Combined Log Format files to extract, aggregate, and compute key performance and security metrics. 
+## Algorithm Description
+The API Request Log Analyzer parses standard Apache/Nginx Combined Log Format files to extract, aggregate, and compute key performance and security metrics. The algorithm processes each line sequentially, extracts components like Client IP, Method, Path, and Status Code, filters out malformed lines gracefully, and computes total requests, unique visitors, error rates, top paths, and method breakdowns.
 
-The algorithm processes each line sequentially, extracts key components (Client IP, Timestamp, HTTP Method, Request Path, HTTP Status Code, Response Size, Referrer, and User-Agent), filters out malformed lines gracefully, and computes the following metrics:
-- **Total Requests:** Total number of valid parsed log entries.
-- **Unique Visitors:** Count of distinct client IP addresses.
-- **Error Rate:** Percentage of requests resulting in client errors (4xx) or server errors (5xx) relative to total requests.
-- **Top Paths:** The top 3 most frequently requested URL paths.
-- **Method Breakdown:** Request counts categorized by HTTP method (GET, POST, PUT, DELETE, etc.).
+## Inputs
+- Sample log files (plain text files containing standard log entries).
 
----
+## Outputs
+- JSON format with statistics including total requests, unique visitors, error rate percentage, status code counts, method breakdown, and top paths.
 
-## 2. Input Format
-Plain text log file where each line conforms (or attempts to conform) to the **Combined Log Format**:
-```text
-<client_ip> - - [<timestamp>] "<method> <path> <http_version>" <status_code> <bytes> "<referrer>" "<user_agent>"
+## Edge Cases
+1. Empty File: File is 0 bytes or contains only whitespace.
+2. Malformed Entry: Lines missing quotes, containing invalid formats, or missing status codes.
+3. Missing Optional Fields: Lines with missing or hyphenated referrers or user-agents.
+4. Extremely Large Files: Handled via streaming/line-by-line reading.
+
+## Test Cases
+- log_small.txt -> 100 requests, 20 errors
+- log_empty.txt -> 0 requests
+- log_malformed.txt -> 7 valid requests, 3 malformed entries
+- log_errors.txt -> 50 requests, 100.0 percent error rate
+- log_ranking.txt -> 3 unique visitors, correct path ranking
