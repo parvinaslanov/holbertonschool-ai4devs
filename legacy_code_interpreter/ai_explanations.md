@@ -18,3 +18,10 @@
 - **Pattern**: Procedural string concatenation with high memory overhead.
 - **Issues**: Memory exhaustion (OOM) on large datasets without pagination.
 - **Improvements**: Implement chunked streaming and buffered iterators.
+
+## Section 4 - SessionManager::checkTimeout()
+
+- **Plain English**: Checks if the user session has expired based on last activity timestamp stored in global state.
+- **Pattern**: Relies on global mutable state and side effects within a conditional check.
+- **Issues**: Race conditions in multi-threaded environments, difficult to mock in tests.
+- **Improvements**: Encapsulate session state into a dedicated service class and inject dependencies.
