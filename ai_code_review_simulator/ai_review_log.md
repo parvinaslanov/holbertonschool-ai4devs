@@ -10,22 +10,13 @@
 ## Inline Comments
 
 1. **`api/routes.py` (Line 24) — [Security Persona]**
-   - *Comment:* SQL injection risk detected in parameter parsing. User input from `status` query param is interpolated directly into query execution instead of using parameterized bindings. Pass filter values as parameter tuples.
+   - **Comment:** SQL injection risk detected in raw query parameter construction. User input from the `status` query string parameter is concatenated directly into the SQL string execution rather than using parameterized placeholders. To prevent arbitrary SQL execution, sanitize the input using bound parameter tuples (e.g., `cursor.execute(query, (status,))`).
 
 2. **`tasks.py` (Line 42) — [Maintainability Persona]**
-   - *Comment:* Non-descriptive parameter name `st`. Rename `st` to `status_filter` for consistency with codebase style guidelines.
+   - **Comment:** Non-descriptive single-letter parameter name `st` used in function signature. Variable names should clearly communicate intent to maintain readability across team members. Rename `st` to `status_filter` to comply with standard PEP 8 and project style guidelines.
 
 3. **`tasks.py` (Line 58) — [Performance Persona]**
-   - *Comment:* Potential $O(N)$ memory overload. `filter_tasks()` loads all matching DB records into memory before applying date filtering in Python. Move the due-date clause directly into the database query statement.
+   - **Comment:** High risk of $O(N)$ memory overload under peak query loads. The `filter_tasks()` implementation currently fetches all records from the database into memory before filtering by `due_date` using Python list comprehensions. Shift the date filtering directly into the SQL `WHERE` clause so the database engine performs the operation efficiently.
 
 4. **`api/routes.py` (Line 71) — [Security Persona]**
-   - *Comment:* Input validation missing. The `limit` and `offset` query parameters are not sanitized or bounded, allowing negative values or excessively large limits (`limit=1000000`) that could cause a Denial of Service (DoS).
-
-5. **`models.py` (Line 103) — [Performance Persona]**
-   - *Comment:* Missing database index. Filtering on `status` and `due_date` will trigger full table scans as dataset grows. Add a composite index on `(status, due_date)`.
-
-6. **`tasks.py` (Line 118) — [Maintainability Persona]**
-   - *Comment:* Unhandled type error risk. Explicit conversion `datetime.strptime(due_date, "%Y-%m-%d")` lacks a `try-except ValueError` block, causing unhandled 500 errors on invalid date format input.
-
-7. **`tests/test_tasks.py` (Line 85) — [Maintainability Persona]**
-   - *
+   - **Comment:** Unbounded limit and offset pagination parameters permit Denial of Service (DoS) exploits. A malicious actor could request `limit=1000000`, causing excessive server memory allocation and database timeouts. Enforce strict numerical bounds (e.g., `min=1, max=100`) and default values on all incoming pagination
