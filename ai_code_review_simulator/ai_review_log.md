@@ -1,15 +1,15 @@
 ## AI Review Log
 
 ### Inline Comments
-- (line 15) [Security] Avoid hardcoding sensitive API keys or secrets directly in code; use environment variables instead.
-- (line 42) [Maintainability] Variable `usr` should be renamed to `user` for clarity and readability.
-- (line 78) [Performance] Unnecessary loop iteration over large dataset; consider using a hash map for $O(1)$ lookup time.
-- (line 105) [Security] Input data passed to query is not sanitized; susceptible to SQL injection vulnerabilities.
-- (line 120) [Maintainability] Add explicit type validation for the `status` parameter to prevent unexpected runtime errors.
-- (line 164) [Performance] Database call inside a `for` loop detected; batch queries or preload relationships to avoid N+1 query issues.
+- (line 18) [Security] Ensure query parameters in `api/routes.py` for `/tasks/filter` are strictly sanitized and cast to expected types to prevent SQL injection or ORM parameter tampering.
+- (line 34) [Security] Verify that the `/tasks/filter` endpoint enforces tenant-level access control so users cannot filter or view tasks belonging to other accounts.
+- (line 52) [Performance] Check if database indexes exist on the status and due date fields in `models.py`; missing indexes will cause full table scans during task filtering.
+- (line 76) [Performance] Aggregated status summary calculation in `tasks.py` should execute as a single SQL `GROUP BY` query rather than fetching raw records into memory and counting in Python.
+- (line 98) [Maintainability] Function `filter_tasks()` in `tasks.py` is handling both query construction and response serialization; consider splitting it into smaller, single-responsibility helper functions.
+- (line 142) [Maintainability] In `tests/test_tasks.py`, replace repetitive test setup logic across the 6 new tests with a shared Pytest fixture to improve test maintainability.
 
 ### Global Feedback
-- [Security] Ensure all endpoint handlers implement strict authentication checks and rate limiting to defend against brute-force attacks.
-- [Performance] Implement caching (e.g., Redis) for frequently accessed, low-frequency write data to reduce database load.
-- [Maintainability] Suggest adding robust error handling and logging for empty query results rather than returning implicit `null`.
-- [Maintainability] Recommend splitting `filter_tasks()` into smaller, single-responsibility helper functions to improve testability.
+- [Security] Add rate-limiting middleware to the new `/tasks/filter` endpoint to protect against denial-of-service attempts via complex filter parameter combinations.
+- [Performance] For large datasets, restrict the maximum `limit` parameter on `/tasks/filter` and enforce mandatory pagination to control memory consumption and payload size.
+- [Maintainability] Provide explicit type hints and OpenAPI docstrings for all newly introduced request query parameters in `api/routes.py` to ensure accurate client documentation.
+- [Maintainability] Add logging for empty query results and invalid filter parameters to improve debugging and observability in production environment logs.
