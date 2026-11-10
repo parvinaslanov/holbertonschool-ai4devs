@@ -1,15 +1,15 @@
 ## AI Review Log
 
 ### Inline Comments
-- (line 24) [Security] Unsanitized `status` input creates a severe SQL injection vulnerability. Update database calls to use parameterized bindings like `cursor.execute(query, (status,))` to sanitize inputs properly.
-- (line 42) [Maintainability] Single-letter parameter `st` reduces code readability. Rename `st` to `status_filter` to follow standard project and PEP 8 guidelines.
-- (line 58) [Performance] In-memory filtering after fetching all DB rows causes severe memory bottlenecks. Move due-date filtering directly into SQL `WHERE` clauses for efficiency.
-- (line 71) [Security] Unbounded pagination parameters expose the endpoint to DoS attacks. Enforce explicit upper bounds such as `min=1, max=100` on input parameters.
-- (line 103) [Performance] Unindexed filter columns trigger full table scans as dataset grows. Create a composite database index on `(status, due_date)` to improve query speed.
-- (line 118) [Maintainability] Calling `datetime.strptime()` without catching errors crashes on malformed inputs. Wrap parsing in `try-except ValueError` returning HTTP 400.
-- (line 85) [Maintainability] Test `test_filter_by_status()` relies on hardcoded primary keys (`id=1`). Assert dynamic entity attributes instead of static IDs to fix fragility.
+- (line 24) [Security] Severity: High. Issue: Unsanitized `status` input is concatenated into raw SQL, creating an injection vulnerability. Action: Use parameterized bindings like `cursor.execute(query, (status,))` to sanitize inputs properly.
+- (line 42) [Maintainability] Severity: Low. Issue: Single-letter parameter name `st` reduces code readability and breaks style guidelines. Action: Rename `st` to `status_filter` across the codebase to ensure consistency.
+- (line 58) [Performance] Severity: High. Issue: In-memory filtering after fetching all DB rows causes severe memory bottlenecks. Action: Move due-date filtering directly into the SQL `WHERE` clause for execution efficiency.
+- (line 71) [Security] Severity: Medium. Issue: Unbounded pagination parameters expose the endpoint to Denial of Service attacks. Action: Enforce explicit numerical bounds such as `min=1, max=100` on input parameters.
+- (line 103) [Performance] Severity: Medium. Issue: Unindexed filter columns trigger expensive full table scans as dataset size grows. Action: Create a composite database index on `(status, due_date)` to optimize lookup speed.
+- (line 118) [Maintainability] Severity: Medium. Issue: Calling `datetime.strptime()` without error handling crashes on malformed input strings. Action: Wrap parsing logic in a `try-except ValueError` block to return HTTP 400 errors.
+- (line 85) [Maintainability] Severity: Low. Issue: Test `test_filter_by_status()` relies on static primary keys, causing test run fragility. Action: Assert dynamic entity attributes instead of hardcoded database IDs.
 
 ### Global Feedback
-- [Security] Request parameter validation is fragmented across handlers. Implement Pydantic schemas to validate and sanitize incoming payloads before reaching business logic.
-- [Maintainability] `filter_tasks()` handles both query building and execution. Split logic into `build_filter_query()` and `execute_paginated_query()` methods to improve testability.
-- [Performance] Empty query result sets crash with unhandled `NoneType` errors. Update exception handlers to return an HTTP 200 containing `[]` and zeroed metadata.
+- [Security] Severity: High. Issue: Request parameter validation logic is fragmented across multiple route handlers. Action: Implement Pydantic schemas to validate and sanitize incoming payloads before reaching business logic.
+- [Maintainability] Severity: Medium. Issue: Function `filter_tasks()` violates single-responsibility by combining query building and execution. Action: Split logic into `build_filter_query()` and `execute_paginated_query()` methods to improve testability.
+- [Performance] Severity: Medium. Issue: Querying non-existent datasets causes unhandled `NoneType` crashes during metadata calculation. Action: Update exception handlers to return an HTTP 200 containing `[]` and zeroed metadata counts.
