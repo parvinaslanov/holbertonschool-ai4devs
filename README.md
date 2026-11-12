@@ -25,4 +25,4 @@ Welcome to my Holberton School repository! This space hosts my academic projects
 
 **Parvin Aslanov** — Graduate of IT STEP Academy & Student at Holberton School
 
-[![GitHub Profile](./assets/github-profile-badge-v3.svg)](https://github.com/parvinaslanov)
+[![GitHub Profile](https://raw.githubusercontent.com/parvinaslanov/holbertonschool-ai4devs/main/assets/github-profile-badge-v3.svg)](https://github.com/parvinaslanov)
