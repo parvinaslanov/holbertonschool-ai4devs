@@ -62,3 +62,5 @@ Captures structured output from the AI analysis for quick reference and analytic
 | `recommended_steps` | JSON / Text | Required | Structured step-by-step fix instructions |
 | `risk_level` | Enum | `LOW`, `MEDIUM`, `HIGH` | Risk level of suggested actions (e.g., `HIGH` for BIOS changes) |
 | `was_helpful` | Boolean | Nullable | User feedback on whether the fix resolved the issue |
+
+<!-- COMPLETED -->
