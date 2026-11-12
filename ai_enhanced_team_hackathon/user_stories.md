@@ -43,3 +43,5 @@
    - **As a** user facing a Blue Screen of Death (BSOD), BIOS screen, or cryptic error popup,
    - **I want** to upload a photo or paste an error code,
    - **So that** the AI can extract the exact error details and diagnose it automatically.
+
+<!-- COMPLETED -->
