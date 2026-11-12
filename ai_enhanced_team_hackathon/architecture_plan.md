@@ -1,20 +1,12 @@
-# High-Level Architecture Plan — AI Computer & IT Troubleshooting Assistant
+# Architecture Plan
 
-## 1. System Overview
-The **AI Computer & IT Troubleshooting Assistant** follows a clean **Client-Server (3-Tier) Web Architecture** designed for rapid MVP development by a solo developer while remaining modular enough to support future multimodal features (screenshot/error log analysis).
+## System Overview
+The application follows a 3-Tier Client-Server Architecture consisting of a Frontend Client, a FastAPI Backend Server, and an SQLite Database integrated with an LLM AI Diagnostic Engine.
 
-```text
-+-------------------+       HTTPS / REST API       +-----------------------+
-|                   | <--------------------------> |                       |
-|  Frontend Client  |                              |    Backend Server     |
-|  (HTML/JS/React)  |                              |   (Python / FastAPI)  |
-|                   |                              |                       |
-+-------------------+                              +-----------+-----------+
-                                                               |
-                                       +-----------------------+-----------------------+
-                                       |                                               |
-                                       v                                               v
-                        +-----------------------------+                 +-----------------------------+
-                        |   AI Diagnostic Engine      |                 |     Relational Database     |
-                        |   (LLM API + System Prompt) |                 |     (SQLite / PostgreSQL)   |
-                        +-----------------------------+                 +-----------------------------+
+## Components
+1. Frontend Client: HTML/JS interface for symptom submission and step-by-step checklists.
+2. Backend Server: Python FastAPI application handling business logic and API routing.
+3. Database: SQLite database storing users, sessions, and messages.
+4. AI Diagnostic Engine: External LLM API configured with system prompts for IT troubleshooting.
+
+<!-- COMPLETED -->
