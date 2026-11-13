@@ -53,26 +53,16 @@ public class LogAnalyzer {
 
     public Map<String, Integer> getMethodBreakdown() {
         Map<String, Integer> methods = new HashMap<>();
+        Pattern pattern = Pattern.compile("\"([A-Z]+)\\s+[^\"]+\"");
+
         for (String line : logs) {
             if (line.trim().isEmpty()) continue;
-            String[] parts = line.split("\"");
-            if (parts.length > 1) {
-                String[] reqParts = parts[1].split("\\s+");
-                if (reqParts.length > 0) {
-                    String method = reqParts[0];
-                    methods.put(method, methods.getOrDefault(method, 0) + 1);
-                }
+            Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
+                String method = matcher.group(1);
+                methods.put(method, methods.getOrDefault(method, 0) + 1);
             }
         }
-
-        // Return sorted LinkedHashMap for consistency with getTopPaths
-        return methods.entrySet().stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new
-                ));
+        return methods;
     }
 }
