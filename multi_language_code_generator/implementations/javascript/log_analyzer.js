@@ -19,6 +19,9 @@ class LogAnalyzer {
     }
 
     analyze(lines) {
+        if (!lines || !Array.isArray(lines)) {
+            return { total_requests: 0, error_rate: 0.0 };
+        }
         const total = lines.length;
         if (total === 0) {
             return { total_requests: 0, error_rate: 0.0 };
