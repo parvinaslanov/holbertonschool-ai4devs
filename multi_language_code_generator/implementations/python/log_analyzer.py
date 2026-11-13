@@ -14,6 +14,8 @@ class LogAnalyzer:
         return {"status": status}
 
     def analyze(self, lines: list) -> dict:
+        if lines is None:
+            return {"total_requests": 0, "error_rate": 0.0}
         total = len(lines)
         if total == 0:
             return {"total_requests": 0, "error_rate": 0.0}
