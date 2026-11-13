@@ -1,5 +1,3 @@
-### Fixed `ui_mockups/generator_screen.md`
-```markdown
 # UI Mockup: Generator Screen
 
 ## Layout Structure
