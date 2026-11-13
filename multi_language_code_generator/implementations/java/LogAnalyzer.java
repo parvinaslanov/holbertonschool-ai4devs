@@ -1,68 +1,52 @@
 // LogAnalyzer.java
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class LogAnalyzer {
-    private final List<String> logs;
-
-    public LogAnalyzer(String logData) {
-        if (logData == null || logData.trim().isEmpty()) {
-            this.logs = new ArrayList<>();
-        } else {
-            this.logs = Arrays.asList(logData.trim().split("\n"));
+    
+    public Map<String, Object> parseLine(String line) {
+        Map<String, Object> result = new HashMap<>();
+        if (line == null || line.trim().isEmpty()) {
+            result.put("status", 0);
+            return result;
         }
-    }
-
-    public long getUniqueVisitors() {
-        Set<String> visitors = new HashSet<>();
-        for (String line : logs) {
-            if (line.trim().isEmpty()) continue;
-            String[] parts = line.trim().split("\\s+");
-            if (parts.length > 0) {
-                visitors.add(parts[0]);
-            }
-        }
-        return visitors.size();
-    }
-
-    public Map<String, Integer> getTopPaths(int limit) {
-        Map<String, Integer> pathCounts = new HashMap<>();
-        Pattern pattern = Pattern.compile("\"[A-Z]+\\s+([^\\s]+)\\s+HTTP/[0-9.]+\"");
         
-        for (String line : logs) {
-            if (line.trim().isEmpty()) continue;
-            Matcher matcher = pattern.matcher(line);
-            if (matcher.find()) {
-                String path = matcher.group(1);
-                pathCounts.put(path, pathCounts.getOrDefault(path, 0) + 1);
+        String[] parts = line.trim().split("\\s+");
+        int status = 0;
+        try {
+            if (parts.length > 8) {
+                status = Integer.parseInt(parts[8]);
             }
+        } catch (NumberFormatException e) {
+            status = 0;
         }
-
-        return pathCounts.entrySet().stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder()))
-                .limit(limit)
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new
-                ));
+        
+        result.put("status", status);
+        return result;
     }
 
-    public Map<String, Integer> getMethodBreakdown() {
-        Map<String, Integer> methods = new HashMap<>();
-        Pattern pattern = Pattern.compile("\"([A-Z]+)\\s+[^\"]+\"");
+    public Map<String, Object> analyze(List<String> lines) {
+        Map<String, Object> result = new HashMap<>();
+        int total = lines.size();
+        if (total == 0) {
+            result.put("total_requests", 0);
+            result.put("error_rate", 0.0);
+            return result;
+        }
 
-        for (String line : logs) {
-            if (line.trim().isEmpty()) continue;
-            Matcher matcher = pattern.matcher(line);
-            if (matcher.find()) {
-                String method = matcher.group(1);
-                methods.put(method, methods.getOrDefault(method, 0) + 1);
+        int errors = 0;
+        for (String line : lines) {
+            if (line != null && !line.trim().isEmpty()) {
+                Map<String, Object> parsed = parseLine(line);
+                int status = (int) parsed.get("status");
+                if (status >= 400) {
+                    errors++;
+                }
             }
         }
-        return methods;
+
+        double errorRate = ((double) errors / total) * 100.0;
+        result.put("total_requests", total);
+        result.put("error_rate", errorRate);
+        return result;
     }
 }
