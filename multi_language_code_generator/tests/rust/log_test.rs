@@ -18,7 +18,7 @@ mod tests {
         }
 
         match stats.get("error_rate") {
-            Some(MetricValue::Float(val)) => assert!((val - 33.33).abs() < 1.0),
+            Some(MetricValue::Float(val)) => assert!((val - 33.333333333333336).abs() < 1e-6),
             _ => panic!("Invalid or missing error_rate"),
         }
     }
