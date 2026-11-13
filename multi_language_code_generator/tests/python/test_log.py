@@ -5,7 +5,7 @@ def test_log_parser_counts():
     entries = ["200 OK", "404 NOT FOUND", "200 OK"]
     stats = analyzer.analyze(entries)
     assert stats['total_requests'] == 3
-    assert abs(stats['error_rate'] - 33.33) < 0.1
+    assert abs(stats['error_rate'] - 33.333333333333336) < 1e-6
 
 def test_empty_case():
     analyzer = LogAnalyzer()
