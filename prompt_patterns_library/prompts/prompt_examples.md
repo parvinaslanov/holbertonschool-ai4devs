@@ -1,11 +1,13 @@
 # Prompt Testing Examples
 
 ## Example 1 - Refactoring Prompt
+**Role**: You are an expert Python software engineer specializing in code quality, maintainability, and refactoring.
 **Prompt**: Refactor the following Python function for readability and type hinting.
 **Input**:
 ```python
-def calc(a,b): return a+b*10
+def calc(a, b): return a + b * 10
 ```
+**Expected Output Format**: Valid Python code block with type hints and a docstring.
 
 **AI Output**:
 ```python
@@ -14,13 +16,15 @@ def calculate_total(a: int, b: int) -> int:
     return a + (b * 10)
 ```
 
-**Feedback**: Output is correct and clean; type hints and docstring were added successfully.
+**Feedback**: Output is correct, but docstring could be more descriptive.
 
 
 ## Example 2 - Summarization Prompt
+**Role**: You are a technical documentation specialist who writes concise summaries for open-source repositories and README files.
 **Prompt**: Summarize the following technical paragraph into three concise bullet points for a project README.
 **Input**:
 Continuous integration (CI) is the practice of automating the integration of code changes from multiple contributors into a single software project. It allows developers to frequently merge code changes into a central repository where automated builds and tests are run. Automated tools are used to assert the new code's correctness before integration.
+**Expected Output Format**: Exactly three concise bullet points summarizing the core concepts.
 
 **AI Output**:
 * Automates code integration from multiple contributors into a central repository.
@@ -31,11 +35,13 @@ Continuous integration (CI) is the practice of automating the integration of cod
 
 
 ## Example 3 - Code Generation Prompt
+**Role**: You are a senior frontend and JavaScript developer who writes clean, robust, and efficient code.
 **Prompt**: Write a JavaScript function that checks if a given string is a palindrome, ignoring spaces and capitalization.
 **Input**:
 ```javascript
 const text = "A man a plan a canal Panama";
 ```
+**Expected Output Format**: Valid JavaScript code block containing the function implementation.
 
 **AI Output**:
 ```javascript
@@ -49,6 +55,7 @@ function isPalindrome(str) {
 
 
 ## Example 4 - Bug Fixing Prompt
+**Role**: You are a diligent debugging assistant who identifies logic flaws, off-by-one errors, and syntax issues in code.
 **Prompt**: Identify and fix the bug in the following JavaScript function that calculates an array sum.
 **Input**:
 ```javascript
@@ -60,6 +67,7 @@ function sumArray(arr) {
     return sum;
 }
 ```
+**Expected Output Format**: Corrected JavaScript code block with the fixed loop bounds and index references.
 
 **AI Output**:
 ```javascript
@@ -76,6 +84,7 @@ function sumArray(arr) {
 
 
 ## Example 5 - Documentation Prompt
+**Role**: You are a technical writer specializing in API documentation and JSDoc comment standards.
 **Prompt**: Write a JSDoc comment block for the following utility function.
 **Input**:
 ```javascript
@@ -83,6 +92,7 @@ function formatCurrency(amount, currency = 'USD') {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
 }
 ```
+**Expected Output Format**: Complete JavaScript function preceded by a well-formatted JSDoc block.
 
 **AI Output**:
 ```javascript
@@ -98,4 +108,3 @@ function formatCurrency(amount, currency = 'USD') {
 ```
 
 **Feedback**: The JSDoc documentation is comprehensive, accurately describes parameters, and includes default values.
-```
