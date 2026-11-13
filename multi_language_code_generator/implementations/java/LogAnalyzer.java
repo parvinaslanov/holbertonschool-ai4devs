@@ -1,6 +1,4 @@
 // LogAnalyzer.java
-package implementations.java;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,11 +53,8 @@ public class LogAnalyzer {
 
     public Map<String, Integer> getMethodBreakdown() {
         Map<String, Integer> methods = new HashMap<>();
-        Pattern pattern = Pattern.compile("\"([A-Z]+)\\s+[^>]+\"\\s+[0-9]+");
-
         for (String line : logs) {
             if (line.trim().isEmpty()) continue;
-            // Simplified method extraction
             String[] parts = line.split("\"");
             if (parts.length > 1) {
                 String[] reqParts = parts[1].split("\\s+");
@@ -69,6 +64,15 @@ public class LogAnalyzer {
                 }
             }
         }
-        return methods;
+
+        // Return sorted LinkedHashMap for consistency with getTopPaths
+        return methods.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
     }
 }
