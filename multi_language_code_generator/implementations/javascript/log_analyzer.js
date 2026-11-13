@@ -1,14 +1,13 @@
 // log_analyzer.js
 
 class LogAnalyzer {
-    parseLine(line) {
-        const parts = line.trim().split(/\s+/);
-        if (parts.length === 0 || line.trim() === "") {
+    parse_line(line) {
+        if (!line || typeof line !== "string" || line.trim() === "") {
             return { status: 0 };
         }
+        const parts = line.trim().split(/\s+/);
         let status = 0;
         try {
-            // Apache log format status code is typically at index 8
             if (parts.length > 8) {
                 status = parseInt(parts[8], 10);
                 if (isNaN(status)) status = 0;
@@ -24,11 +23,10 @@ class LogAnalyzer {
         if (total === 0) {
             return { total_requests: 0, error_rate: 0.0 };
         }
-
         let errors = 0;
         for (const line of lines) {
-            if (line && line.trim() !== "") {
-                const res = this.parseLine(line);
+            if (line && typeof line === "string" && line.trim() !== "") {
+                const res = this.parse_line(line);
                 if (res.status >= 400) {
                     errors++;
                 }
