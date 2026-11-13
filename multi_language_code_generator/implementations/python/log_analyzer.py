@@ -2,7 +2,6 @@
 
 class LogAnalyzer:
     def parse_line(self, line: str) -> dict:
-        # Parse Apache log line status code
         parts = line.split()
         if not parts:
             return {"status": 0}
