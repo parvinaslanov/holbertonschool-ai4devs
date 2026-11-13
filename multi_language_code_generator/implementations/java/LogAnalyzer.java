@@ -3,7 +3,7 @@ import java.util.*;
 
 public class LogAnalyzer {
     
-    public Map<String, Object> parseLine(String line) {
+    public Map<String, Object> parse_line(String line) {
         Map<String, Object> result = new HashMap<>();
         if (line == null || line.trim().isEmpty()) {
             result.put("status", 0);
@@ -36,7 +36,7 @@ public class LogAnalyzer {
         int errors = 0;
         for (String line : lines) {
             if (line != null && !line.trim().isEmpty()) {
-                Map<String, Object> parsed = parseLine(line);
+                Map<String, Object> parsed = parse_line(line);
                 int status = (int) parsed.get("status");
                 if (status >= 400) {
                     errors++;
