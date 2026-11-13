@@ -1,7 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use super::*; // Adjust module path as needed based on your structure
-    // Assuming LogAnalyzer is imported from implementations/rust/log_analyzer.rs
+    use super::super::super::implementations::rust::log_analyzer::{LogAnalyzer, MetricValue};
 
     #[test]
     fn test_log_parser_counts() {
@@ -20,6 +19,39 @@ mod tests {
 
         match stats.get("error_rate") {
             Some(MetricValue::Float(val)) => assert!((val - 33.33).abs() < 1.0),
+            _ => panic!("Invalid or missing error_rate"),
+        }
+    }
+
+    #[test]
+    fn test_log_parser_edge_cases() {
+        let analyzer = LogAnalyzer::new();
+        
+        // Empty list / edge cases
+        let entries = vec![];
+        let stats = analyzer.analyze(&entries);
+
+        match stats.get("total_requests") {
+            Some(MetricValue::Int(val)) => assert_eq!(*val, 0),
+            _ => panic!("Invalid or missing total_requests"),
+        }
+
+        match stats.get("error_rate") {
+            Some(MetricValue::Float(val)) => assert_eq!(*val, 0.0),
+            _ => panic!("Invalid or missing error_rate"),
+        }
+
+        // Blank/malformed lines
+        let malformed = vec!["".to_string(), "   ".to_string(), "short".to_string()];
+        let stats_malformed = analyzer.analyze(&malformed);
+
+        match stats_malformed.get("total_requests") {
+            Some(MetricValue::Int(val)) => assert_eq!(*val, 3),
+            _ => panic!("Invalid or missing total_requests"),
+        }
+
+        match stats_malformed.get("error_rate") {
+            Some(MetricValue::Float(val)) => assert_eq!(*val, 0.0),
             _ => panic!("Invalid or missing error_rate"),
         }
     }
