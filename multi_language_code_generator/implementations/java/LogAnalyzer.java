@@ -27,7 +27,6 @@ public class LogAnalyzer {
     public Map<String, Object> analyze(List<String> lines) {
         Map<String, Object> result = new HashMap<>();
         
-        // Defensive null check for the lines parameter
         if (lines == null) {
             result.put("total_requests", 0);
             result.put("error_rate", 0.0);
