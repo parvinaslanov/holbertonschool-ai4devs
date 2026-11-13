@@ -1,6 +1,12 @@
 // log_analyzer.rs
 use std::collections::HashMap;
 
+#[derive(Debug, Clone)]
+pub enum MetricValue {
+    Int(usize),
+    Float(f64),
+}
+
 pub struct LogAnalyzer;
 
 impl LogAnalyzer {
@@ -24,12 +30,12 @@ impl LogAnalyzer {
         result
     }
 
-    pub fn analyze(&self, lines: &[String]) -> HashMap<String, f64> {
+    pub fn analyze(&self, lines: &[String]) -> HashMap<String, MetricValue> {
         let mut result = HashMap::new();
         let total = lines.len();
         if total == 0 {
-            result.insert("total_requests".to_string(), 0.0);
-            result.insert("error_rate".to_string(), 0.0);
+            result.insert("total_requests".to_string(), MetricValue::Int(0));
+            result.insert("error_rate".to_string(), MetricValue::Float(0.0));
             return result;
         }
 
@@ -46,8 +52,8 @@ impl LogAnalyzer {
         }
 
         let error_rate = (errors as f64 / total as f64) * 100.0;
-        result.insert("total_requests".to_string(), total as f64);
-        result.insert("error_rate".to_string(), error_rate);
+        result.insert("total_requests".to_string(), MetricValue::Int(total));
+        result.insert("error_rate".to_string(), MetricValue::Float(error_rate));
         result
     }
 }
