@@ -2,17 +2,17 @@
 
 ## Layout Structure
 ```text
-+-------------------------------------------------------+
-| Logo | AI Startup Builder         [User Profile]      |
-+-------------------------------------------------------+
-| Sidebar | Configuration Settings                      |
-|         |                                             |
-|         | API Configuration:                          |
-|         | - Model Provider: [ OpenAI / Claude v4  v ]   |
-|         | - Temperature:    [=====|=========] 0.7     |
-|         | - Max Tokens:     [ 4096                  ] |
-|         |                                             |
-|         | Repository Integration:                     |
-|         | - Connected Repo: parvinaslanov/holberton...|
-|         | [ Save Changes ]                            |
-+-------------------------------------------------------+
++-----------------------------------+
+| Logo | AI Startup Builder         |
++-----------------------------------+
+| Sidebar | Settings                |
+|         |                         |
+|         | API Configuration:      |
+|         | - Model: OpenAI v4      |
+|         | - Temp:  0.7            |
+|         | - Tokens: 4096          |
+|         |                         |
+|         | Repository:             |
+|         | - Connected             |
+|         | [ Save Changes ]        |
++-----------------------------------+
