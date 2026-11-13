@@ -1,3 +1,5 @@
+# Reflection on Prompt Design
+
 Building out the Prompt Patterns Library repository gave me some really practical, hands-on takeaways about how thoughtful structural design shapes the predictability, reliability, and precision of large language model outputs. Throughout this project, my main goal was to design, test, and document a set of reusable prompt templates for real-world scenarios like content restructuring, automated extraction, text summarization, quality analysis, and documentation drafting. Looking back at the whole development process, a few core principles really stood out for making prompt engineering scalable, maintainable, and reliable across different use cases.
 
 When it came to generalizing various task types into standardized templates, some workflows were definitely smoother to tackle than others:
