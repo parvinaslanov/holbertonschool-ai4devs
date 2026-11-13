@@ -1,5 +1,4 @@
 # log_analyzer.py
-from collections import Counter
 import re
 
 class LogAnalyzer:
@@ -17,7 +16,7 @@ class LogAnalyzer:
         return len(visitors)
 
     def get_top_paths(self, limit: int = 5) -> dict:
-        path_counts = Counter()
+        path_counts = {}
         pattern = re.compile(r'"[A-Z]+\s+([^\s]+)\s+HTTP/[0-9.]+"')
         
         for line in self.logs:
@@ -26,13 +25,14 @@ class LogAnalyzer:
             match = pattern.search(line)
             if match:
                 path = match.group(1)
-                path_counts[path] += 1
+                path_counts[path] = path_counts.get(path, 0) + 1
                 
-        return dict(path_counts.most_common(limit))
+        sorted_paths = sorted(path_counts.items(), key=lambda x: x[1], reverse=True)
+        return dict(sorted_paths[:limit])
 
     def get_method_breakdown(self) -> dict:
-        methods = Counter()
-        pattern = re.compile(r'"([A-Z]+)\s+[^"]+"\s+[0-9]+')
+        methods = {}
+        pattern = re.compile(r'"([A-Z]+)\s+[^"]+"')
         
         for line in self.logs:
             if not line.strip():
@@ -40,6 +40,6 @@ class LogAnalyzer:
             match = pattern.search(line)
             if match:
                 method = match.group(1)
-                methods[method] += 1
+                methods[method] = methods.get(method, 0) + 1
                 
-        return dict(methods)
+        return methods
