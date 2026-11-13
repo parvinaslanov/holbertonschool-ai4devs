@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math"
 	"testing"
 	loganalyzer "holbertonschool-ai4devs/multi_language_code_generator/implementations/go"
 )
@@ -15,8 +16,8 @@ func TestLogParserCounts(t *testing.T) {
 	}
 
 	errorRate, ok := stats["error_rate"].(float64)
-	if !ok || errorRate < 33.2 || errorRate > 33.4 {
-		t.Errorf("Expected error_rate around 33.3, got %v", stats["error_rate"])
+	if !ok || math.Abs(errorRate-33.333333333333336) > 1e-6 {
+		t.Errorf("Expected error_rate around 33.333333333333336, got %v", stats["error_rate"])
 	}
 }
 
