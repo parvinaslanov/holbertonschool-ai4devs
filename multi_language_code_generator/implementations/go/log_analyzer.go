@@ -29,6 +29,12 @@ func (l *LogAnalyzer) ParseLine(line string) map[string]int {
 
 func (l *LogAnalyzer) Analyze(lines []string) map[string]interface{} {
 	result := make(map[string]interface{})
+	if lines == nil {
+		result["total_requests"] = 0
+		result["error_rate"] = 0.0
+		return result
+	}
+
 	total := len(lines)
 	if total == 0 {
 		result["total_requests"] = 0
