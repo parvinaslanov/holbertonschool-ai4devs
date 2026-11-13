@@ -1,6 +1,7 @@
 # UI Mockup: Dashboard Screen
 
 ## Layout Structure
+```text
 +-------------------------------------------------------+
 | Logo | AI Startup Builder         [User Profile]      |
 +-------------------------------------------------------+
